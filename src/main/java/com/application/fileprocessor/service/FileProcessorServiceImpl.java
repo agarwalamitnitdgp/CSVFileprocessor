@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class FileProcessorServiceImpl implements FileProcessorService {
 
-    private static Logger logger = LogManager.getLogger(FileProcessorServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(FileProcessorServiceImpl.class);
 
     private ExecutorService executorService;
 
@@ -45,9 +45,7 @@ public class FileProcessorServiceImpl implements FileProcessorService {
         List<List<RevenueAmount>> revenueList = new ArrayList<>();
         for (File file : files) {
             Future<List<RevenueAmount>> future =
-                    executorService.submit(() -> {
-                        return CSVHelper.csvToRevenueAmount(file);
-                    });
+                    executorService.submit(() -> CSVHelper.csvToRevenueAmount(file));
             futuresList.add(future);
         }
 
@@ -56,7 +54,7 @@ public class FileProcessorServiceImpl implements FileProcessorService {
             try {
                 list = future.get();
             } catch (Exception e) {
-                logger.error("Exception occured while getting list of revenue from CSV files : ", e);
+                logger.error("Exception occurred while getting list of revenue from CSV files : ", e);
             }
             revenueList.add(list);
         }
@@ -68,9 +66,8 @@ public class FileProcessorServiceImpl implements FileProcessorService {
     private Long calculateSumOfList(List<Long> revenues) {
         AtomicLong total = new AtomicLong(0);
         for (Long revenue : revenues) {
-            Long value = revenue;
             executorService.submit(() -> {
-                total.addAndGet(value);
+                total.addAndGet(revenue);
                 return;
             });
         }
@@ -78,6 +75,7 @@ public class FileProcessorServiceImpl implements FileProcessorService {
         try {
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
+            logger.error("Exception while in calculateSumOfList method : ", e);
         }
         return total.get();
     }

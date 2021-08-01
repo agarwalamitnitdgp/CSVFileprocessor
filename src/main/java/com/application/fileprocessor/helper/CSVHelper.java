@@ -12,19 +12,18 @@ import java.util.List;
 
 public class CSVHelper {
 
-    private static Logger logger = LogManager.getLogger(CSVHelper.class);
+    private static final Logger logger = LogManager.getLogger(CSVHelper.class);
 
-    private static String CSV_TYPE = ".csv";
+    private final static String CSV_TYPE = ".csv";
     private final static String FOLDER_PATH = "/home/amit.agarwal/Downloads/input_data_small/";
 
     public static File[] getFiles() {
-        File[] files = new File(FOLDER_PATH).listFiles(path -> {
+        return new File(FOLDER_PATH).listFiles(path -> {
             if (path.isFile() && CSVHelper.hasCSVFormat(path.getName())) {
                 return true;
             }
             return false;
         });
-        return files;
     }
 
     private static boolean hasCSVFormat(String file) {

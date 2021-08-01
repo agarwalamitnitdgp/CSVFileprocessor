@@ -15,7 +15,7 @@ public class ArraySumCallable implements Callable<Long> {
 
     @Override
     public Long call() {
-        Long sum = Long.valueOf(0);
+        Long sum = 0L;
         for (RevenueAmount i : revenueAmounts) {
             sum += i.getRevenueAmount();
         }

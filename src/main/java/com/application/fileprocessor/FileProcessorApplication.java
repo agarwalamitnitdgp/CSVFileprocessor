@@ -8,13 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class FileprocessorApplication implements CommandLineRunner {
+public class FileProcessorApplication implements CommandLineRunner {
 
     @Autowired
     FileProcessorService fileProcessorService;
 
     public static void main(String[] args) {
-        SpringApplication.run(FileprocessorApplication.class, args);
+        SpringApplication.run(FileProcessorApplication.class, args);
     }
 
     @Override
