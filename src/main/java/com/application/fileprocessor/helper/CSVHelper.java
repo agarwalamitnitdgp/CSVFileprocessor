@@ -15,7 +15,7 @@ public class CSVHelper {
     private static Logger logger = LogManager.getLogger(CSVHelper.class);
 
     private static String CSV_TYPE = ".csv";
-    private final static String FOLDER_PATH = "/home/amit.agarwal/Downloads/input_data_small1/";
+    private final static String FOLDER_PATH = "/home/amit.agarwal/Downloads/input_data_small/";
 
     public static File[] getFiles() {
         File[] files = new File(FOLDER_PATH).listFiles(path -> {
